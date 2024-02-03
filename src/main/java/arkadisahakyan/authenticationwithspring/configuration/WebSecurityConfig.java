@@ -1,7 +1,7 @@
 package arkadisahakyan.authenticationwithspring.configuration;
 
 import arkadisahakyan.authenticationwithspring.authentication.CustomAccessDeniedHandler;
-import arkadisahakyan.authenticationwithspring.authentication.CustomAuthenticationEntryPoint;
+import arkadisahakyan.authenticationwithspring.authentication.CustomAuthenticationFailureHandler;
 import arkadisahakyan.authenticationwithspring.securityfilter.CsrfTokenLogger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.RememberMeServices;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.context.DelegatingSecurityContextRepository;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
@@ -26,22 +29,31 @@ import org.springframework.security.web.csrf.CsrfFilter;
 public class WebSecurityConfig {
 
     @Bean
-    public SecurityFilterChain filter(HttpSecurity http, SecurityContextRepository securityContextRepository,
-                                      CustomAuthenticationEntryPoint authenticationEntryPoint, CustomAccessDeniedHandler accessDeniedHandler) throws Exception {
+    public SecurityFilterChain filter(HttpSecurity http, SecurityContextRepository securityContextRepository, CustomAccessDeniedHandler accessDeniedHandler,
+                                      CustomAuthenticationFailureHandler authenticationFailureHandler, RememberMeServices rememberMeServices) throws Exception {
         return http
                 .addFilterAfter(new CsrfTokenLogger(), CsrfFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home", "/login", "/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
+                        .requestMatchers("/", "/home", "/login", "/register", "/logout").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login", "/register", "/logout").permitAll()
                         .requestMatchers("/user").hasAnyAuthority("USER", "ADMIN")
                         .requestMatchers("/admin").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .formLogin((form) -> form.disable()) // using custom login system
-                .logout((logout) -> logout.permitAll())
+                .formLogin((form) -> form.loginPage("/login").failureHandler(authenticationFailureHandler).securityContextRepository(securityContextRepository).permitAll())
+                .logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll())
+                .rememberMe((remember) -> remember.key("secretKey").rememberMeServices(rememberMeServices))
                 .securityContext(securityContext -> securityContext.securityContextRepository(securityContextRepository))
-                .exceptionHandling((exception) -> exception.authenticationEntryPoint(authenticationEntryPoint).accessDeniedHandler(accessDeniedHandler))
+                .exceptionHandling((exception) -> exception.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")).accessDeniedHandler(accessDeniedHandler))
                 .build();
+    }
+
+    @Bean
+    public RememberMeServices rememberMeServices(UserDetailsService userDetailsService) {
+        TokenBasedRememberMeServices.RememberMeTokenAlgorithm encodingAlgorithm = TokenBasedRememberMeServices.RememberMeTokenAlgorithm.SHA256;
+        TokenBasedRememberMeServices rememberMe = new TokenBasedRememberMeServices("secretKeyForRememberMeToken", userDetailsService, encodingAlgorithm);
+        rememberMe.setMatchingAlgorithm(TokenBasedRememberMeServices.RememberMeTokenAlgorithm.MD5);
+        return rememberMe;
     }
 
     @Bean
@@ -53,7 +65,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) throws Exception {
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
