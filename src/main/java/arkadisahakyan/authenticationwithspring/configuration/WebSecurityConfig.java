@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                 )
                 .formLogin((form) -> form.loginPage("/login").failureHandler(authenticationFailureHandler).securityContextRepository(securityContextRepository).permitAll())
                 .logout((logout) -> logout.logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll())
-                .rememberMe((remember) -> remember.key("secretKey").rememberMeServices(rememberMeServices))
+                .rememberMe((remember) -> remember.rememberMeServices(rememberMeServices))
                 .securityContext(securityContext -> securityContext.securityContextRepository(securityContextRepository))
                 .exceptionHandling((exception) -> exception.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")).accessDeniedHandler(accessDeniedHandler))
                 .build();
