@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -14,5 +14,8 @@
         <a title="Create an account" href="/register">/register</a>,
         <a title="Log out from the website" href="/logout">/logout</a>
     </h3>
+    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+        <h3><input type="submit" value="Log out" /></h3>
+    </form>
 </body>
 </html>

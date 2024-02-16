@@ -21,4 +21,6 @@ public class LogoutController {
             return "redirect:/";
         return "logout";
     }
+
+
 }
