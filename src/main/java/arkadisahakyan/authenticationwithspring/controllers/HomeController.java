@@ -12,10 +12,6 @@ public class HomeController {
 
     @GetMapping(value = {"/", "home"})
     public String home(Authentication authentication) {
-        System.out.println("Authentication: " + authentication);
-        // Output: Authentication: null
-        System.out.println("Authentication: " + SecurityContextHolder.getContext().getAuthentication());
-        // Output: AnonymousAuthenticationToken [Principal=anonymousUser, Credentials=[PROTECTED], Authenticated=true...
         return "home";
     }
 }

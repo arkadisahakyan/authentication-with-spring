@@ -75,7 +75,6 @@ public class RegisterController {
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
         // invalidate session - prevent session fixation attacks
-        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
         request.getSession().invalidate();
         securityContextRepository.saveContext(securityContext, request, response);
         logger.info("SUCCESSFUL: new user created");
