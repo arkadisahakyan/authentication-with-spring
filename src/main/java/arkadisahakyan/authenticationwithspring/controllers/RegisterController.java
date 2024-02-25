@@ -15,7 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +42,9 @@ public class RegisterController {
 
     @Autowired
     private SecurityContextRepository securityContextRepository;
+
+    @Autowired
+    private RememberMeServices rememberMeServices;
 
     @GetMapping
     public String register() {
@@ -74,6 +77,7 @@ public class RegisterController {
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
+        rememberMeServices.loginSuccess(request, response, authentication);
         // invalidate session - prevent session fixation attacks
         request.getSession().invalidate();
         securityContextRepository.saveContext(securityContext, request, response);
