@@ -77,7 +77,7 @@ public class RegisterController {
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
-        rememberMeServices.loginSuccess(request, response, authentication);
+        rememberMeServices.loginSuccess(request, response, formAuth);
         // invalidate session - prevent session fixation attacks
         request.getSession().invalidate();
         securityContextRepository.saveContext(securityContext, request, response);
