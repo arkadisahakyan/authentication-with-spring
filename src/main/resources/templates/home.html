@@ -2,20 +2,16 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles.css}">
     <title>Home</title>
 </head>
 <body>
-    <h1>Home Page</h1>
-    <h3>
-        Available URLs:
-        <a title="You should be authenticated" href="/user">/user</a>,
-        <a title="You should be an admin" href="/admin">/admin</a>,
-        <a title="Log in to the website" href="/login">/login</a>,
-        <a title="Create an account" href="/register">/register</a>,
-        <a title="Log out from the website" href="/logout">/logout</a>
-    </h3>
-    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-        <h3><input type="submit" value="Log out" /></h3>
-    </form>
+    <header th:replace="~{fragments/header.html :: header}"></header>
+    <div class="wrapper">
+        <div class="container">
+            <form th:replace="~{fragments/login_form.html :: login-form}"></form>
+        </div>
+    </div>
 </body>
 </html>

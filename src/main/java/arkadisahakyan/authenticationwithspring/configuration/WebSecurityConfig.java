@@ -45,6 +45,7 @@ public class WebSecurityConfig {
                 .rememberMe((remember) -> remember.rememberMeServices(rememberMeServices))
                 .securityContext(securityContext -> securityContext.securityContextRepository(securityContextRepository))
                 .exceptionHandling((exception) -> exception.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")).accessDeniedHandler(accessDeniedHandler))
+                .sessionManagement(session -> session.sessionFixation().migrateSession())
                 .build();
     }
 

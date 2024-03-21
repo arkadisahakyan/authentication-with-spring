@@ -1,0 +1,35 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+</head>
+<body>
+<form class="auth-form" th:fragment="login-form" th:action="@{/login}" method="post">
+    <div class="auth-form-row">
+        <div class="auth-form-column">
+            <label for="username">Username:</label>
+            <input id="username" type="text" name="username" />
+            <div class="auth-form-error-message">
+                Username does not exist.
+            </div>
+        </div>
+    </div>
+    <div class="auth-form-row">
+        <div class="auth-form-column">
+            <label for="password">Password:</label>
+            <input id="password" type="password" name="password" />
+            <div class="auth-form-error-message">
+                Incorrect password.
+            </div>
+        </div>
+    </div>
+    <div class="auth-form-row">
+        <div class="auth-form-column auth-form-column-rem">
+            <label for="checkbox">Remember me:</label>
+            <input id="checkbox" type="checkbox" name="remember-me" />
+        </div>
+        <div class="auth-form-column auth-form-column-login">
+            <input type="submit" value="Log in" />
+        </div>
+    </div>
+</form>
+</body>
+</html>

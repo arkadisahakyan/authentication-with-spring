@@ -1,0 +1,41 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+</head>
+<body>
+<form class="auth-form" th:fragment="register-form" th:action="@{/login}" method="post">
+    <input type="hidden" name="remember-me" value="true" />
+    <div class="auth-form-row">
+        <div class="auth-form-column">
+            <label for="username">Username:</label>
+            <input id="username" type="text" name="username" />
+            <div class="auth-form-error-message">
+                Username does not exist.
+            </div>
+        </div>
+    </div>
+    <div class="auth-form-row">
+        <div class="auth-form-column">
+            <label for="password">Password:</label>
+            <input id="password" type="password" name="password" />
+            <div class="auth-form-error-message">
+                Password must consist of: a-z, A-Z, 0-9, -, _.
+            </div>
+        </div>
+    </div>
+    <div class="auth-form-row">
+        <div class="auth-form-column">
+            <label for="password-confirm">Confirm Password:</label>
+            <input id="password-confirm" type="password" name="password-confirm" />
+            <div class="auth-form-error-message">
+                Passwords don't match.
+            </div>
+        </div>
+    </div>
+    <div class="auth-form-row">
+        <div class="auth-form-column auth-form-column-login">
+            <input type="submit" value="Register" />
+        </div>
+    </div>
+</form>
+</body>
+</html>

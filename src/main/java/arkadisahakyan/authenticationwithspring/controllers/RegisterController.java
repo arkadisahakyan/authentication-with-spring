@@ -53,35 +53,37 @@ public class RegisterController {
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String registerUser(@RequestBody MultiValueMap<String, String> formData, HttpServletRequest request, HttpServletResponse response, Model model) {
-        logger.info("REGISTER USER");
         String username = formData.getFirst("username");
         String password = formData.getFirst("password");
         String passwordConfirm = formData.getFirst("password-confirm");
         if (userRepository.findByUsername(username) != null) {
-            logger.info("UNSUCCESSFUL: username already taken");
             model.addAttribute("usernameAlreadyTaken", true);
             return "register";
         }
         if (!password.equals(passwordConfirm)) {
-            logger.info("UNSUCCESSFUL: passwords don't match");
             model.addAttribute("passwordMismatch", true);
             return "register";
         }
+        registerAndRememberUser(username, password, request, response);
+        logger.info("New user registered");
+        return "register";
+    }
+
+    private void registerAndRememberUser(String username, String password, HttpServletRequest request, HttpServletResponse response) {
         // save user to database
         User newUser = new User(0L, username, password);
         userRepository.save(newUser);
         roleRepository.save(new Role(0L, newUser, "USER"));
-        // remember user
+        // remember user - create remember-me token
         Authentication formAuth = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(formAuth);
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authentication);
         SecurityContextHolder.setContext(securityContext);
+        securityContextRepository.saveContext(securityContext, request, response);
         rememberMeServices.loginSuccess(request, response, formAuth);
         // invalidate session - prevent session fixation attacks
         request.getSession().invalidate();
-        securityContextRepository.saveContext(securityContext, request, response);
-        logger.info("SUCCESSFUL: new user created");
-        return "register";
+        logger.info(request.getSession().getClass().getName());
     }
 }

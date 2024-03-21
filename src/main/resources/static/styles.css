@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========== NAVIGATION ========== */
+
+header {
+    position: relative;
+    border-bottom: 2px solid #09E85E;
+    font-size: 0;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+header .wrapper {
+    display: flex;
+}
+
+.nav {
+    position: relative;
+    padding: 20px;
+    font-family: monospace;
+    font-size: 15px;
+}
+
+.nav * {
+    text-decoration: none;
+    color: black;
+}
+
+.nav:hover {
+    background-color: #09E85E;
+}
+
+.nav-right {
+    margin-left: auto;
+}
+
+.wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 1080px;
+}
+
+.container {
+    padding: 10px;
+}
+
+/* ========== LOGIN FORM ========== */
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 50px auto;
+    font-family: sans-serif;
+    width: 300px;
+}
+
+.auth-form-row {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    gap: 15px;
+}
+
+.auth-form-column {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.auth-form-column-rem {
+    flex-direction: row;
+    gap: 5px;
+    flex: 1 1 0px;
+    white-space: nowrap;
+}
+
+.auth-form-column-login {
+    flex-direction: row;
+    justify-content: center;
+    flex: 0 1 0px;
+}
+
+.auth-form-column-login input {
+    width: 80px;
+}
+
+.auth-form-error-message {
+    color: red;
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 1080px) {
+    .wrapper {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 310px) {
+    .auth-form {
+        width: 100%;
+    }
+}
