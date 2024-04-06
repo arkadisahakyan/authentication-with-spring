@@ -3,37 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Create an account</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-    <h1>Create an account</h1>
-    <div th:if="${usernameAlreadyTaken}">
-        <h3>Username already taken.</h3>
+    <header th:replace="~{fragments/header.html :: header}"></header>
+    <div class="wrapper">
+        <div class="container">
+            <form th:replace="~{fragments/register_form.html :: register-form}"></form>
+        </div>
     </div>
-    <div th:if="${passwordMismatch}">
-        <h3>Passwords don't match.</h3>
-    </div>
-    <div th:if="${usernameAlreadyTaken==null and passwordMismatch==null}">
-        <h3>Registration Form</h3>
-    </div>
-    <form th:action="@{/register}" method="post">
-        <table>
-            <tr>
-                <td><label for="username">Username:</label></td>
-                <td><input id="username" type="text" name="username" /></td>
-            </tr>
-            <tr>
-                <td><label for="password">Password:</label></td>
-                <td><input id="password" type="password" name="password" /></td>
-            </tr>
-            <tr>
-                <td><label for="password-confirm">Confirm Password:</label></td>
-                <td><input id="password-confirm" type="password" name="password-confirm" /></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Register" /></td>
-            </tr>
-            <input type="hidden" name="remember-me" value="true" />
-        </table>
-    </form>
 </body>
 </html>

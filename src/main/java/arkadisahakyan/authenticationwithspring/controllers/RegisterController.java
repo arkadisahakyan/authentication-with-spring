@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/register")
@@ -52,21 +53,32 @@ public class RegisterController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String registerUser(@RequestBody MultiValueMap<String, String> formData, HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String registerUser(@RequestBody MultiValueMap<String, String> formData, HttpServletRequest request, HttpServletResponse response, Model model, RedirectAttributes redirect) {
         String username = formData.getFirst("username");
         String password = formData.getFirst("password");
         String passwordConfirm = formData.getFirst("password-confirm");
-        if (userRepository.findByUsername(username) != null) {
-            model.addAttribute("usernameAlreadyTaken", true);
-            return "register";
-        }
-        if (!password.equals(passwordConfirm)) {
-            model.addAttribute("passwordMismatch", true);
-            return "register";
-        }
+        if (registrationFailed(username, password, passwordConfirm, redirect))
+            return "redirect:" + request.getHeader("referer");
         registerAndRememberUser(username, password, request, response);
         logger.info("New user registered");
-        return "register";
+        return "redirect:" + request.getHeader("referer");
+    }
+
+    public boolean registrationFailed(String username, String password, String passwordConfirm, RedirectAttributes redirect) {
+        boolean failed = false;
+        if (userRepository.findByUsername(username) != null) {
+            redirect.addFlashAttribute("usernameAlreadyExists", true);
+            failed = true;
+        }
+        if (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*)(?=.*[~!@#$%^&*()]).{8,}$")) {
+            redirect.addFlashAttribute("invalidPasswordFormat", true);
+            failed = true;
+        }
+        if (!password.equals(passwordConfirm)) {
+            redirect.addFlashAttribute("passwordMismatch", true);
+            failed = true;
+        }
+        return failed;
     }
 
     private void registerAndRememberUser(String username, String password, HttpServletRequest request, HttpServletResponse response) {

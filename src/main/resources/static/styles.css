@@ -8,7 +8,7 @@
 
 header {
     position: relative;
-    border-bottom: 2px solid #09E85E;
+    background-color: tomato;
     font-size: 0;
     overflow: auto;
     white-space: nowrap;
@@ -23,15 +23,17 @@ header .wrapper {
     padding: 20px;
     font-family: monospace;
     font-size: 15px;
+    color: black;
 }
 
 .nav * {
     text-decoration: none;
-    color: black;
+    color: inherit;
 }
 
 .nav:hover {
-    background-color: #09E85E;
+    background-color: #A62D17;
+    color: white;
 }
 
 .nav-right {
@@ -46,15 +48,21 @@ header .wrapper {
 
 .container {
     padding: 10px;
+    padding-top: 50px;
 }
 
 /* ========== LOGIN FORM ========== */
+
+.auth-form-title {
+    margin-bottom: 15px;
+    justify-content: center;
+}
 
 .auth-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 50px auto;
+    margin: 0 auto;
     font-family: sans-serif;
     width: 300px;
 }
