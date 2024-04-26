@@ -55,16 +55,15 @@ public class UserController {
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String manageUser(@RequestBody MultiValueMap<String, String> formData, HttpServletRequest request, RedirectAttributes redirect) {
         Long userId = Long.valueOf(formData.getFirst("userId"));
-        User changedUserData = retrieveUserFromMultiValueMap(formData);
         String actionName = formData.getFirst(ACTION_SAVE) != null ? ACTION_SAVE : ACTION_DELETE;
-        if (ACTION_SAVE.equals(actionName)) {
-            try {
+        try {
+            User changedUserData = retrieveUserFromMultiValueMap(formData);
+            if (ACTION_SAVE.equals(actionName))
                 userRepository.save(changedUserData);
-            } catch (DataAccessException exception) {
-                redirect.addFlashAttribute("userSaveFailed", true);
-            }
-        } else if (ACTION_DELETE.equals(actionName)) {
-            userRepository.deleteById(userId);
+            else if (ACTION_DELETE.equals(actionName))
+                userRepository.deleteById(userId);
+        } catch (RuntimeException exception) {
+            redirect.addFlashAttribute("userSaveFailed", true);
         }
         return "redirect:" + request.getHeader("referer");
     }
