@@ -1,8 +1,12 @@
 package arkadisahakyan.authenticationwithspring.controllers;
 
+import arkadisahakyan.authenticationwithspring.model.User;
+import arkadisahakyan.authenticationwithspring.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,8 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/")
 public class HomeController {
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping(value = {"/", "home"})
-    public String home(HttpServletRequest request, Authentication authentication) {
+    public String home(HttpServletRequest request, Authentication authentication, Model model) {
+        Iterable<User> allUsers = userRepository.findAll();
+        model.addAttribute("usersList", allUsers);
         return "home";
     }
 }

@@ -47,8 +47,9 @@ header .wrapper {
 }
 
 .container {
-    padding: 10px;
-    padding-top: 50px;
+    margin: 0 auto;
+    width: 720px;
+    padding: 35px 0px;
 }
 
 /* ========== LOGIN FORM ========== */
@@ -102,8 +103,58 @@ header .wrapper {
     font-size: 14px;
 }
 
+/* ========== TABLE ========== */
+
+.management-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.management-table-row {
+
+}
+
+.management-table-row:nth-child(odd) {
+    background: whitesmoke;
+}
+
+.management-table-row:nth-child(even) {
+    background-color: gainsboro;
+    color: white;
+}
+
+.management-table-column {
+    padding: 0 5px;
+    background-color: inherit;
+    border: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.table-column-title {
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.management-button {
+    color: black;
+    background-color: white;
+}
+
+.error-message-block {
+    height: 35px;
+    line-height: 35px;
+}
+
 @media only screen and (max-width: 1080px) {
     .wrapper {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .container {
         width: 100%;
     }
 }

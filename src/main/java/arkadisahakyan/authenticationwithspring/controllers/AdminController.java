@@ -1,7 +1,11 @@
 package arkadisahakyan.authenticationwithspring.controllers;
 
+import arkadisahakyan.authenticationwithspring.model.User;
+import arkadisahakyan.authenticationwithspring.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,9 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/admin")
 public class AdminController {
 
-    //@PreAuthorize("hasAnyAuthority(\"ADMIN\")")
+    @Autowired
+    private UserRepository userRepository;
+
+    @PreAuthorize("hasAnyAuthority(\"ADMIN\")")
     @GetMapping
-    public String admin() {
+    public String admin(Model model) {
+        Iterable<User> allUsers = userRepository.findAll();
+        model.addAttribute("usersList", allUsers);
         return "admin_page";
     }
 }

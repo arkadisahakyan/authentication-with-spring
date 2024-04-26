@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Access Denied</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles.css}">
 </head>
 <body>
-    <h1>403</h1>
-    <h2>Sorry, you do not have permissions to access this page.</h2>
+    <header th:replace="~{fragments/header.html :: header}"></header>
+    <div class="wrapper">
+        <div class="container">
+            <h2>403</h2>
+            <h3>Sorry, you do not have permissions to perform this action.</h3>
+        </div>
+    </div>
 </body>
 </html>

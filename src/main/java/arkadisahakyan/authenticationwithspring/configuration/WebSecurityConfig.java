@@ -35,8 +35,8 @@ public class WebSecurityConfig {
         return http
                 .addFilterAfter(new CsrfTokenLogger(), CsrfFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/user").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers("/admin").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/user").authenticated() //hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers("/admin").authenticated() //hasAnyAuthority("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .formLogin((form) -> form.loginPage("/login").failureHandler(authenticationFailureHandler).securityContextRepository(securityContextRepository))

@@ -57,20 +57,20 @@ public class RegisterController {
         String username = formData.getFirst("username");
         String password = formData.getFirst("password");
         String passwordConfirm = formData.getFirst("password-confirm");
-        if (registrationFailed(username, password, passwordConfirm, redirect))
+        if (isRegistrationFailed(username, password, passwordConfirm, redirect))
             return "redirect:" + request.getHeader("referer");
         registerAndRememberUser(username, password, request, response);
         logger.info("New user registered");
         return "redirect:" + request.getHeader("referer");
     }
 
-    public boolean registrationFailed(String username, String password, String passwordConfirm, RedirectAttributes redirect) {
+    public boolean isRegistrationFailed(String username, String password, String passwordConfirm, RedirectAttributes redirect) {
         boolean failed = false;
         if (userRepository.findByUsername(username) != null) {
             redirect.addFlashAttribute("usernameAlreadyExists", true);
             failed = true;
         }
-        if (!password.matches("^(?=.*[A-Z])(?=.*\\d)(?=.*)(?=.*[~!@#$%^&*()]).{8,}$")) {
+        if (!password.matches("^.{8,}$")) {
             redirect.addFlashAttribute("invalidPasswordFormat", true);
             failed = true;
         }
@@ -82,6 +82,8 @@ public class RegisterController {
     }
 
     private void registerAndRememberUser(String username, String password, HttpServletRequest request, HttpServletResponse response) {
+        // invalidate session - prevent session fixation attacks
+        request.getSession().invalidate();
         // save user to database
         User newUser = new User(0L, username, password);
         userRepository.save(newUser);
@@ -94,8 +96,5 @@ public class RegisterController {
         SecurityContextHolder.setContext(securityContext);
         securityContextRepository.saveContext(securityContext, request, response);
         rememberMeServices.loginSuccess(request, response, formAuth);
-        // invalidate session - prevent session fixation attacks
-        request.getSession().invalidate();
-        logger.info(request.getSession().getClass().getName());
     }
 }

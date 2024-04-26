@@ -21,7 +21,7 @@
             <label for="password">Password:</label>
             <input id="password" type="password" name="password" />
             <div th:if="${invalidPasswordFormat}" class="auth-form-error-message">
-                Password must contain at least one uppercase letter, a number and a special character.
+                Password must contain at least 8 characters.
             </div>
         </div>
     </div>

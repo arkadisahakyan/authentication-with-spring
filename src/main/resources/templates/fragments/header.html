@@ -13,11 +13,14 @@
                 <div class="nav">
                     <a href="/admin">Admin Page</a>
                 </div>
-                <div class="nav nav-right">
-                    <a href="/login">Login</a>
+                <div class="nav nav-right" sec:authorize="isAnonymous()">
+                    <a href="/login">Log in</a>
                 </div>
-                <div class="nav">
+                <div class="nav" sec:authorize="isAnonymous()">
                     <a href="/register">Register</a>
+                </div>
+                <div class="nav nav-right" sec:authorize="isAuthenticated()">
+                    <a href="/logout">Log out</a>
                 </div>
             </div>
         </header>

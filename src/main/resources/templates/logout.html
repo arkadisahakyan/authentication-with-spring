@@ -2,12 +2,19 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles.css}">
     <title>Log out from the website</title>
 </head>
 <body>
-    <h1>Are you sure you want to log out?</h1>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Log out" />
-    </form>
+    <header th:replace="~{fragments/header.html :: header}"></header>
+    <div class="wrapper">
+        <div class="container">
+            <h2>Are you sure you want to log out?</h2>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Log out" />
+            </form>
+        </div>
+    </div>
 </body>
 </html>

@@ -27,14 +27,14 @@ public class AuthenticationWithSpringApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		if (userRepository.findByUsername("user") == null) {
-			User user = new User(Long.valueOf(1), "user", "user");
+			User user = new User(1L, "user", "user");
 			userRepository.save(user);
-			roleRepository.save(new Role(Long.valueOf(1), user, "USER"));
+			roleRepository.save(new Role(1L, user, "USER"));
 		}
 		if (userRepository.findByUsername("admin") == null) {
-			User admin = new User(Long.valueOf(2), "admin", "admin");
+			User admin = new User(2L, "admin", "admin");
 			userRepository.save(admin);
-			roleRepository.save(new Role(Long.valueOf(2), admin, "ADMIN"));
+			roleRepository.save(new Role(2L, admin, "ADMIN"));
 		}
 	}
 }
