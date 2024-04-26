@@ -138,8 +138,9 @@ header .wrapper {
 }
 
 .management-button {
-    color: black;
+    color: mediumblue;
     background-color: white;
+    cursor: pointer;
 }
 
 .error-message-block {
