@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <table class="management-table user-management-table" th:fragment="user-management-table (users)">
+        <div class="error-message-block">
+            <h2 th:if="${userSaveFailed}">Status: User Save Failed</h2>
+        </div>
+        <tr class="management-table-row table-column-title">
+            <td><b>Id</b></td>
+            <td><b>Username</b></td>
+            <td><b>Password</b></td>
+            <td><b>Roles</b></td>
+        </tr>
+        <tr class="management-table-row" th:each="user: ${users}">
+            <form th:action="@{/user}" method="post">
+                <input type="hidden" name="userId" th:value="${user.id}" />
+                <td><input class="management-table-column" type="text" name="id" th:value="${user.id}" /></td>
+                <td><input class="management-table-column" type="text" name="username" th:value="${user.username}" /></td>
+                <td><input class="management-table-column" type="text" name="password" th:value="${user.password}" /></td>
+                <td><input class="management-table-column" type="text" name="roles" th:value="${#strings.listJoin(user.roles, ',')}" /></td>
+                <td><input class="management-table-column management-button" name="saveButton" type="submit" value="Save"></td>
+                <td><input class="management-table-column management-button" name="deleteButton" type="submit" value="Delete"></td>
+            </form>
+        </tr>
+    </table>
+</body>
+</html>
