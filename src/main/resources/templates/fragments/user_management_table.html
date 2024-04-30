@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:fragment="links">
+        <link rel="stylesheet" th:href="@{/css/fragments/user_management_table.css}">
+    </th:block>
 </head>
 <body>
     <table class="management-table user-management-table" th:fragment="user-management-table (users)">

@@ -1,0 +1,33 @@
+header {
+    position: relative;
+    background-color: tomato;
+    font-size: 0;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+header .wrapper {
+    display: flex;
+}
+
+.nav {
+    position: relative;
+    padding: 20px;
+    font-family: monospace;
+    font-size: 15px;
+    color: black;
+}
+
+.nav * {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav:hover {
+    background-color: #A62D17;
+    color: white;
+}
+
+.nav-right {
+    margin-left: auto;
+}

@@ -1,0 +1,42 @@
+.management-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.management-table-row {
+
+}
+
+.management-table-row:nth-child(odd) {
+    background: whitesmoke;
+}
+
+.management-table-row:nth-child(even) {
+    background-color: gainsboro;
+    color: white;
+}
+
+.management-table-column {
+    padding: 0 5px;
+    background-color: inherit;
+    border: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.table-column-title {
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.management-button {
+    color: mediumblue;
+    background-color: white;
+    cursor: pointer;
+}
+
+.error-message-block {
+    height: 35px;
+    line-height: 35px;
+}
