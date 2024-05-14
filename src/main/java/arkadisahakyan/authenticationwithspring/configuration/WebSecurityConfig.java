@@ -5,6 +5,7 @@ import arkadisahakyan.authenticationwithspring.authentication.CustomAuthenticati
 import arkadisahakyan.authenticationwithspring.securityfilter.CsrfTokenLogger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -35,8 +36,9 @@ public class WebSecurityConfig {
         return http
                 .addFilterAfter(new CsrfTokenLogger(), CsrfFilter.class)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/user").authenticated() //hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers("/admin").authenticated() //hasAnyAuthority("ADMIN")
+                        .requestMatchers("/user").authenticated()
+                        .requestMatchers("/admin").authenticated()
+                        //.requestMatchers(HttpMethod.POST, "/upload").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin((form) -> form.loginPage("/login").failureHandler(authenticationFailureHandler).securityContextRepository(securityContextRepository))
