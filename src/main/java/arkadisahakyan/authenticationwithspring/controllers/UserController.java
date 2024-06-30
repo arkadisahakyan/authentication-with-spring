@@ -1,10 +1,8 @@
 package arkadisahakyan.authenticationwithspring.controllers;
 
-import arkadisahakyan.authenticationwithspring.Utilities;
-import arkadisahakyan.authenticationwithspring.model.Role;
 import arkadisahakyan.authenticationwithspring.model.User;
-import arkadisahakyan.authenticationwithspring.repository.RoleRepository;
 import arkadisahakyan.authenticationwithspring.repository.UserRepository;
+import arkadisahakyan.authenticationwithspring.services.IUserManagementService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,53 +15,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
     private final static String ACTION_SAVE = "saveButton";
     private final static String ACTION_DELETE = "deleteButton";
 
-    @Autowired
-    private UserRepository userRepository;
+    private final IUserManagementService userManagementService;
 
     @Autowired
-    private RoleRepository roleRepository;
+    public UserController(IUserManagementService userManagementService) {
+        this.userManagementService = userManagementService;
+    }
 
     @GetMapping
     public String user() {
         return "user_page";
     }
 
-    public User retrieveUserFromMultiValueMap(MultiValueMap<String, String> formData) {
-        Long id = Long.valueOf(formData.getFirst("id"));
-        String username = Utilities.nullableString(formData.getFirst("username"));
-        String password = Utilities.nullableString(formData.getFirst("password"));
-        User changedUserData = new User(id, username, password);
-        List<Role> roles = Arrays.stream(formData.getFirst("roles").split(","))
-                .map(roleName -> new Role(0L, changedUserData, roleName))
-                .collect(Collectors.toList());
-        changedUserData.setRoles(roles);
-        return changedUserData;
-    }
-
     @PreAuthorize("hasAnyAuthority(\"ADMIN\")")
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String manageUser(@RequestBody MultiValueMap<String, String> formData, HttpServletRequest request, RedirectAttributes redirect) {
-        Long userId = Long.valueOf(formData.getFirst("userId"));
-        String actionName = formData.getFirst(ACTION_SAVE) != null ? ACTION_SAVE : ACTION_DELETE;
-        try {
-            User changedUserData = retrieveUserFromMultiValueMap(formData);
-            if (ACTION_SAVE.equals(actionName))
-                userRepository.save(changedUserData);
-            else if (ACTION_DELETE.equals(actionName))
-                userRepository.deleteById(userId);
-        } catch (RuntimeException exception) {
-            redirect.addFlashAttribute("userSaveFailed", true);
-        }
-        return "redirect:" + request.getHeader("referer");
+    public String manageUser(@RequestBody MultiValueMap<String, String> formData, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        return userManagementService.manageUser(formData, request, redirectAttributes);
     }
 }

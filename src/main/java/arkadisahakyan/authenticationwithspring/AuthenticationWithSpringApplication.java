@@ -5,6 +5,7 @@ import arkadisahakyan.authenticationwithspring.model.Role;
 import arkadisahakyan.authenticationwithspring.model.User;
 import arkadisahakyan.authenticationwithspring.repository.RoleRepository;
 import arkadisahakyan.authenticationwithspring.repository.UserRepository;
+import arkadisahakyan.authenticationwithspring.services.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -41,7 +42,7 @@ public class AuthenticationWithSpringApplication implements ApplicationRunner {
 		}
 
 		// create upload directory if not exists
-		Path uploadDir = FileUploadController.uploadDir;
+		Path uploadDir = FileUploadService.uploadDir;
 		if (!Files.exists(uploadDir))
 			Files.createDirectories(uploadDir);
 	}

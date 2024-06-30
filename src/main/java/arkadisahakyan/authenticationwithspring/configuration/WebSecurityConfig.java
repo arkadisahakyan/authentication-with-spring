@@ -38,7 +38,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/user").authenticated()
                         .requestMatchers("/admin").authenticated()
-                        //.requestMatchers(HttpMethod.POST, "/upload").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/upload").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin((form) -> form.loginPage("/login").failureHandler(authenticationFailureHandler).securityContextRepository(securityContextRepository))

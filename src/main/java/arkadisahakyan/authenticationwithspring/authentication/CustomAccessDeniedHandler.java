@@ -23,6 +23,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         try {
             View view = viewResolver.resolveViewName("access_denied", Locale.ENGLISH);
+            response.setStatus(403);
             view.render(null, request, response);
         } catch (Exception e) {
             e.printStackTrace();

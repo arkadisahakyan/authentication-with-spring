@@ -11,8 +11,13 @@
     <header th:replace="~{fragments/header.html :: header}"></header>
     <div class="wrapper">
         <div class="container">
-<!--            <table th:replace="~{fragments/user_management_table.html :: user-management-table(users=${usersList})}"></table>-->
-            empty
+            <div th:if="${uploadMessage}">
+                <th:block th:text="${uploadMessage}"></th:block>
+            </div>
+            <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+                <input type="file" name="file" />
+                <input type="submit" value="Upload" />
+            </form>
         </div>
     </div>
 </body>

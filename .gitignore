@@ -4,3 +4,6 @@
 # Maven
 .mvn
 target
+
+# Other
+upload-dir
