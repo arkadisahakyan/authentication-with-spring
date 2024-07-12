@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <th:block th:replace="~{fragments/header.html :: links}" />
+    <th:block th:replace="~{fragments/content_editor.html :: links}" />
     <title>Home</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <th:block th:replace="~{fragments/content_editor.html :: js}" />
 </head>
 <body>
     <header th:replace="~{fragments/header.html :: header}"></header>
     <div class="wrapper">
         <div class="container">
-            <div th:if="${uploadMessage}">
+            <!--<div th:if="${uploadMessage}">
                 <th:block th:text="${uploadMessage}"></th:block>
             </div>
             <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
                 <input type="file" name="file" />
                 <input type="submit" value="Upload" />
-            </form>
+            </form>-->
         </div>
     </div>
 </body>

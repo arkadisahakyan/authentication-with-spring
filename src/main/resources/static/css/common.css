@@ -16,6 +16,18 @@
     padding: 35px 0px;
 }
 
+.hidden {
+    display: none;
+}
+
+.centered-text {
+    text-align: center;
+}
+
+.bold {
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 1080px) {
     .wrapper {
         width: 100%;

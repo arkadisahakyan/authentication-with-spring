@@ -22,7 +22,14 @@ public class User {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
+    private List<Article> articles;
+
     public User() {}
+
+    public User(Long id) {
+        this.id = id;
+    }
 
     public User(Long id, String username, String password, List<Role> roles) {
         this.id = id;
