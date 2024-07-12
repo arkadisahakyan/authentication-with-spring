@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title th:utext="${article.title}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/article.css}">
+    <th:block th:replace="~{fragments/header.html :: links}" />
+</head>
+<body>
+    <header th:replace="~{fragments/header.html :: header}"></header>
+    <div class="wrapper">
+        <div class="container">
+            <div class="article-body">
+                <h1 class="article-title" th:utext="${article.title}"></h1>
+                <th:block th:utext="${article.content}" />
+                <div class="article-footer">
+                    <p>Posted by <span class="bold" th:text="${article.author.username}" /> at <span class="bold" th:text="${#dates.format(article.createdAt, 'dd.MM.yyyy HH:mm')}" /></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

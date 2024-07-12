@@ -1,0 +1,30 @@
+.article-summary {
+    display: block;
+}
+
+.as-item {
+    display: flex;
+    margin: 5px 0;
+    align-items: center;
+}
+
+.as-title {
+}
+
+.as-title a {
+    text-decoration: none;
+    color: mediumblue;
+}
+
+.as-created-at {
+    font-size: 16px;
+    margin-left: auto;
+}
+
+.as-author {
+    font-weight: bold;
+}
+
+.as-created-at {
+    font-weight: bold;
+}

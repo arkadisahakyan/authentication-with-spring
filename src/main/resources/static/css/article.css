@@ -1,0 +1,23 @@
+.article-body {
+    padding: 5px;
+}
+
+.article-title {
+
+}
+
+.article-image {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.article-paragraph {
+    font-family: sans-serif;
+    margin: 10px 0;
+    text-align: justify;
+}
+
+.article-footer {
+    text-align: right;
+}

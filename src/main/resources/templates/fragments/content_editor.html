@@ -1,0 +1,24 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <th:block th:fragment="links">
+        <link rel="stylesheet" th:href="@{/css/fragments/content_editor.css}">
+    </th:block>
+    <th:block th:fragment="js">
+        <script th:src="@{/js/fragments/content_editor.js}"></script>
+    </th:block>
+</head>
+<body>
+    <div id="content-editor" th:fragment="content-editor">
+        <form th:method="post" th:action="@{/article/new}">
+            <input id="csrf-token" type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <input class="ce-text-field" id="ce-title" type="text" name="title" placeholder="Title" />
+            <div id="ce-action-menu">
+                <input id="ce-upload-file" class="hidden" type="file" />
+                <label for="ce-upload-file" class="ce-action-button">Upload file</label>
+            </div>
+            <textarea class="ce-text-field" id="ce-textarea" name="content" rows="10" placeholder="Your text..."></textarea>
+            <input id="ce-submit" type="submit" value="Post" />
+        </form>
+    </div>
+</body>
+</html>

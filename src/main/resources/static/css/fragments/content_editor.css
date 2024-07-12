@@ -1,0 +1,54 @@
+.ce-text-field {
+    box-sizing: border-box;
+    tab-size: 4;
+    border: 2px solid gainsboro;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    padding: 4px;
+}
+
+#content-editor {
+    display: block;
+    width: 480px;
+    margin: 0 auto;
+}
+
+#ce-action-menu {
+    display: flex;
+    color: mediumblue;
+}
+
+.ce-action-button {
+    cursor: pointer;
+    font-family: sans-serif;
+    margin-left: auto;
+}
+
+#ce-textarea {
+    display: block;
+    width: 100%;
+    resize: vertical;
+    font-size: 16px;
+}
+
+#ce-title {
+    display: block;
+    font-family: monospace;
+    margin: 5px 0;
+    width: 100%;
+}
+
+#ce-submit {
+    margin: 5px 0;
+    padding: 5px 10px 5px;
+}
+
+#ce-action-menu {
+
+}
+
+@media only screen and (max-width: 480px) {
+    #content-editor {
+        width: 100%;
+    }
+}
