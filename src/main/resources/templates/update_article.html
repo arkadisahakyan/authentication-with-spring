@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
-    <title>Create an article</title>
+    <title>Update the article</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <th:block th:replace="~{fragments/header.html :: links}" />
@@ -14,8 +14,8 @@
     <header th:replace="~{fragments/header.html :: header}"></header>
     <div class="wrapper">
         <div class="container">
-            <h1 class="centered-text">Create an article</h1>
-            <div th:replace="~{fragments/content_editor.html :: content-editor (action=@{/article/new})}"></div>
+            <h1 class="centered-text">Update the article</h1>
+            <div th:replace="~{fragments/content_editor.html :: content-editor (action=@{/article/{id}/edit (id=${article.id})})}"></div>
         </div>
     </div>
 </body>

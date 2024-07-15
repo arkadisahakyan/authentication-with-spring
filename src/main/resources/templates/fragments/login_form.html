@@ -12,7 +12,7 @@
     <div class="auth-form-row">
         <div class="auth-form-column">
             <label for="username">Username:</label>
-            <input id="username" type="text" name="username" />
+            <input id="username" type="text" name="username" placeholder="admin" />
             <div th:if="${incorrectUsernameOrPassword}" class="auth-form-error-message">
                 Incorrect username or password.
             </div>
@@ -21,7 +21,7 @@
     <div class="auth-form-row">
         <div class="auth-form-column">
             <label for="password">Password:</label>
-            <input id="password" type="password" name="password" />
+            <input id="password" type="password" name="password" placeholder="admin" />
         </div>
     </div>
     <div class="auth-form-row">

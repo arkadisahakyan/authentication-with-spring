@@ -1,10 +1,11 @@
 package arkadisahakyan.authenticationwithspring.dto;
 
 import arkadisahakyan.authenticationwithspring.model.Article;
+import arkadisahakyan.authenticationwithspring.model.User;
 
 import java.util.Date;
 
-public class ArticleDTO {
+public class ArticleDTO implements IArticleDTO {
     private Long id;
     private String title;
     private String content;
@@ -31,6 +32,12 @@ public class ArticleDTO {
         this.createdAt = article.getCreatedAt();
         this.updatedAt = article.getUpdatedAt();
         this.author = new UserDTO(article.getAuthor());
+    }
+
+    @Override
+    public Article toArticle() {
+        return new Article(id, title, content, createdAt, updatedAt,
+                new User(author.getId(), author.getUsername(), null, author.getRoles()));
     }
 
     public Long getId() {

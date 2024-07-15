@@ -8,15 +8,15 @@
     </th:block>
 </head>
 <body>
-    <div id="content-editor" th:fragment="content-editor">
-        <form th:method="post" th:action="@{/article/new}">
+    <div id="content-editor" th:fragment="content-editor (action)">
+        <form th:method="post" th:action="${action}">
             <input id="csrf-token" type="hidden" name="_csrf" th:value="${_csrf.token}" />
-            <input class="ce-text-field" id="ce-title" type="text" name="title" placeholder="Title" />
+            <input th:value="${article.title}" class="ce-text-field" id="ce-title" type="text" name="title" placeholder="Title" />
             <div id="ce-action-menu">
                 <input id="ce-upload-file" class="hidden" type="file" />
                 <label for="ce-upload-file" class="ce-action-button">Upload file</label>
             </div>
-            <textarea class="ce-text-field" id="ce-textarea" name="content" rows="10" placeholder="Your text..."></textarea>
+            <textarea th:utext="${article.content}" class="ce-text-field" id="ce-textarea" name="content" rows="10" placeholder="Your text..."></textarea>
             <input id="ce-submit" type="submit" value="Post" />
         </form>
     </div>

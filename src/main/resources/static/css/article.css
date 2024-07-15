@@ -6,6 +6,11 @@
 
 }
 
+.article-action {
+    color: mediumblue;
+    text-decoration: none;
+}
+
 .article-image {
     display: block;
     margin: 0 auto;

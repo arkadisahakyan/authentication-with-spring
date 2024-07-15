@@ -3,7 +3,7 @@ package arkadisahakyan.authenticationwithspring.dto;
 import arkadisahakyan.authenticationwithspring.model.Article;
 import jakarta.validation.constraints.NotBlank;
 
-public class ArticleCreationDTO implements IArticleDTO {
+public class ArticleUpdateDTO implements IArticleDTO {
 
     @NotBlank(message = "Title should not be empty.")
     private String title;
@@ -11,17 +11,12 @@ public class ArticleCreationDTO implements IArticleDTO {
     @NotBlank(message = "Content should not be empty.")
     private String content;
 
-    public ArticleCreationDTO() {
+    public ArticleUpdateDTO() {
     }
 
-    public ArticleCreationDTO(String title, String content) {
+    public ArticleUpdateDTO(String title, String content) {
         this.title = title;
         this.content = content;
-    }
-
-    public ArticleCreationDTO(Article article) {
-        this.title = article.getTitle();
-        this.content = article.getContent();
     }
 
     @Override

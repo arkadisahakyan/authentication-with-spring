@@ -2,6 +2,7 @@ package arkadisahakyan.authenticationwithspring.services;
 
 import arkadisahakyan.authenticationwithspring.dto.ArticleCreationDTO;
 import arkadisahakyan.authenticationwithspring.dto.ArticleDTO;
+import arkadisahakyan.authenticationwithspring.dto.ArticleUpdateDTO;
 import arkadisahakyan.authenticationwithspring.dto.UserDTO;
 import arkadisahakyan.authenticationwithspring.exceptions.ArticleNotFoundException;
 import arkadisahakyan.authenticationwithspring.model.Article;
@@ -9,6 +10,7 @@ import arkadisahakyan.authenticationwithspring.model.User;
 import arkadisahakyan.authenticationwithspring.repository.ArticleRepository;
 import arkadisahakyan.authenticationwithspring.userdetails.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
@@ -27,7 +29,7 @@ public class ArticleManagementService implements IArticleManagementService {
     }
 
     @Override
-    public Long saveArticle(ArticleCreationDTO articleCreationDTO) {
+    public Long createArticle(ArticleCreationDTO articleCreationDTO) {
         Article article = articleCreationDTO.toArticle();
         CustomUserDetails author = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         article.setAuthor(new User(author.getUserId()));
@@ -36,7 +38,30 @@ public class ArticleManagementService implements IArticleManagementService {
     }
 
     @Override
-    public ArticleDTO getArticleConvertedToHTML(Long id) {
+    public Long updateArticle(ArticleUpdateDTO articleUpdateDTO, Long articleId) {
+        Optional<Article> currentArticle = articleRepository.findById(articleId);
+        if (currentArticle.isEmpty())
+            throw new ArticleNotFoundException("No article found by given id.");
+        CustomUserDetails author = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (author.getUserId() != currentArticle.get().getAuthor().getId())
+            throw new AccessDeniedException("You can't change someone else's article.");
+        Article articleToUpdate = articleUpdateDTO.toArticle();
+        articleToUpdate.setId(currentArticle.get().getId());
+        articleToUpdate.setAuthor(currentArticle.get().getAuthor());
+        articleToUpdate.setCreatedAt(currentArticle.get().getCreatedAt());
+        return articleRepository.save(articleToUpdate).getId();
+    }
+
+    @Override
+    public ArticleDTO getArticleById(Long id) {
+        Optional<Article> article = articleRepository.findById(id);
+        if (article.isEmpty())
+            throw new ArticleNotFoundException("No article found by given id.");
+        return new ArticleDTO(article.get());
+    }
+
+    @Override
+    public ArticleDTO getArticleByIdConvertedToHTML(Long id) {
         Optional<Article> article = articleRepository.findById(id);
         if (article.isEmpty())
             throw new ArticleNotFoundException("No article found by given id.");

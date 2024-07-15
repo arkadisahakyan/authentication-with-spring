@@ -17,6 +17,8 @@
                 <th:block th:utext="${article.content}" />
                 <div class="article-footer">
                     <p>Posted by <span class="bold" th:text="${article.author.username}" /> at <span class="bold" th:text="${#dates.format(article.createdAt, 'dd.MM.yyyy HH:mm')}" /></p>
+                    <p>Updated at <span class="bold" th:text="${#dates.format(article.updatedAt, 'dd.MM.yyyy HH:mm')}" /></p>
+                    <p><a class="article-action" th:href="@{/article/{id}/edit (id=${article.id})}">Edit</a></p>
                 </div>
             </div>
         </div>
