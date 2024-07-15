@@ -18,7 +18,7 @@
                 <div class="article-footer">
                     <p>Posted by <span class="bold" th:text="${article.author.username}" /> at <span class="bold" th:text="${#dates.format(article.createdAt, 'dd.MM.yyyy HH:mm')}" /></p>
                     <p>Updated at <span class="bold" th:text="${#dates.format(article.updatedAt, 'dd.MM.yyyy HH:mm')}" /></p>
-                    <p><a class="article-action" th:href="@{/article/{id}/edit (id=${article.id})}">Edit</a></p>
+                    <p th:if="${#authentication?.getPrincipal().getUsername()==article.author.username}" class="article-action"><a th:href="@{/article/{id}/edit (id=${article.id})}">Edit</a></p>
                 </div>
             </div>
         </div>
