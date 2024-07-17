@@ -43,6 +43,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/article/new").authenticated()
                         .requestMatchers("/article/*/edit").authenticated()
                         .requestMatchers(HttpMethod.POST, "/article/*/edit").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/article/*/delete").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin((form) -> form.loginPage("/login").failureHandler(authenticationFailureHandler).securityContextRepository(securityContextRepository))

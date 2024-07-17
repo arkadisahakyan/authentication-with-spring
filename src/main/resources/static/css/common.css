@@ -28,6 +28,14 @@
     font-weight: bold;
 }
 
+.button-as-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: mediumblue;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 1080px) {
     .wrapper {
         width: 100%;

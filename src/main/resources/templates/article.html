@@ -18,7 +18,12 @@
                 <div class="article-footer">
                     <p>Posted by <span class="bold" th:text="${article.author.username}" /> at <span class="bold" th:text="${#dates.format(article.createdAt, 'dd.MM.yyyy HH:mm')}" /></p>
                     <p>Updated at <span class="bold" th:text="${#dates.format(article.updatedAt, 'dd.MM.yyyy HH:mm')}" /></p>
-                    <p sec:authorize="!isAnonymous()" th:if="${#authentication.getPrincipal().getUsername()==article.author.username}" class="article-action"><a th:href="@{/article/{id}/edit (id=${article.id})}">Edit</a></p>
+                    <div class="article-action-menu">
+                        <p sec:authorize="!isAnonymous()" th:if="${#authentication.getPrincipal().getUsername()==article.author.username}" class="article-action"><a th:href="@{/article/{id}/edit (id=${article.id})}">Edit</a></p>
+                        <form sec:authorize="!isAnonymous()" th:if="${#authentication.getPrincipal().getUsername()==article.author.username}" class="article-action" th:action="@{/article/{id}/delete (id=${article.id})}" method="post">
+                            <button onclick="return confirm('Are you sure you want to DELETE this article?')" type="submit" class="button-as-link">Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

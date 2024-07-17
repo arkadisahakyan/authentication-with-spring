@@ -3,12 +3,20 @@
 }
 
 .article-title {
-
 }
 
 .article-action {
-    color: mediumblue;
+}
+
+.article-action-menu {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.article-action a {
     text-decoration: none;
+    color: mediumblue;
 }
 
 .article-image {

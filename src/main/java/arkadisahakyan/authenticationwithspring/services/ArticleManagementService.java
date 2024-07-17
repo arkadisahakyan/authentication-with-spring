@@ -53,6 +53,17 @@ public class ArticleManagementService implements IArticleManagementService {
     }
 
     @Override
+    public void deleteArticle(Long articleId) {
+        Optional<Article> currentArticle = articleRepository.findById(articleId);
+        if (!currentArticle.isEmpty()) {
+            CustomUserDetails author = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (author.getUserId() == currentArticle.get().getAuthor().getId())
+                articleRepository.delete(currentArticle.get());
+        } else
+            throw new ArticleNotFoundException("No article found by given id.");
+    }
+
+    @Override
     public ArticleDTO getArticleById(Long id) {
         Optional<Article> article = articleRepository.findById(id);
         if (article.isEmpty())
