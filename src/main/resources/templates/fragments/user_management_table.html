@@ -24,7 +24,7 @@
                 <td><input class="management-table-column" type="text" name="password" th:value="${user.password}" /></td>
                 <td><input class="management-table-column" type="text" name="roles" th:value="${#strings.listJoin(user.roles, ',')}" /></td>
                 <td><input class="management-table-column management-button" name="saveButton" type="submit" value="Save"></td>
-                <td><input class="management-table-column management-button" name="deleteButton" type="submit" value="Delete"></td>
+                <td><input class="management-table-column management-button" name="deleteButton" type="submit" value="Delete" onclick="return confirm('Are you sure you want to DELETE this user?')"></td>
             </form>
         </tr>
     </table>
