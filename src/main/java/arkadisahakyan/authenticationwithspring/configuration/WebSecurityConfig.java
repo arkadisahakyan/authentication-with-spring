@@ -40,9 +40,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/admin").authenticated()
                         .requestMatchers(HttpMethod.POST, "/upload").authenticated()
                         .requestMatchers("/article/new").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/article/new").authenticated()
                         .requestMatchers("/article/*/edit").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/article/*/edit").authenticated()
                         .requestMatchers(HttpMethod.POST, "/article/*/delete").authenticated()
                         .anyRequest().permitAll()
                 )
@@ -52,6 +50,8 @@ public class WebSecurityConfig {
                 .securityContext(securityContext -> securityContext.securityContextRepository(securityContextRepository))
                 .exceptionHandling((exception) -> exception.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")).accessDeniedHandler(accessDeniedHandler))
                 .sessionManagement(session -> session.sessionFixation().migrateSession())
+                .csrf((csrf) -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                .headers((headers) -> headers.frameOptions((options) -> options.sameOrigin()))
                 .build();
     }
 

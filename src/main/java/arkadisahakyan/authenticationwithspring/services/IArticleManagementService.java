@@ -13,4 +13,5 @@ public interface IArticleManagementService {
     ArticleDTO getArticleById(Long id);
     ArticleDTO getArticleByIdConvertedToHTML(Long id);
     Collection<ArticleDTO> getAllArticles();
+    Collection<ArticleDTO> getAllArticlesOfCurrentUser();
 }

@@ -28,3 +28,9 @@
 .as-created-at {
     font-weight: bold;
 }
+
+.new-article-link {
+    text-decoration: none;
+    color: mediumblue;
+    font-family: sans-serif;
+}

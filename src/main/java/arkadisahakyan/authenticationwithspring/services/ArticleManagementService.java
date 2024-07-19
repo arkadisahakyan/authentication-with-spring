@@ -87,6 +87,15 @@ public class ArticleManagementService implements IArticleManagementService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Collection<ArticleDTO> getAllArticlesOfCurrentUser() {
+        CustomUserDetails author = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Collection<Article> articles = articleRepository.findByAuthor_Username(author.getUsername());
+        return articles.stream()
+                .map(article -> new ArticleDTO(article.getId(), article.getTitle(), article.getContent(), article.getCreatedAt(), article.getUpdatedAt(), new UserDTO(article.getAuthor())))
+                .collect(Collectors.toList());
+    }
+
     private ArticleDTO convertToHTML(ArticleDTO articleDTO) {
         String content = articleDTO.getContent();
         content = HtmlUtils.htmlEscape(content);
