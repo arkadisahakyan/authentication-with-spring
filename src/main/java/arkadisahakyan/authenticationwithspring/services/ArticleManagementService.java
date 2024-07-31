@@ -10,17 +10,22 @@ import arkadisahakyan.authenticationwithspring.model.User;
 import arkadisahakyan.authenticationwithspring.repository.ArticleRepository;
 import arkadisahakyan.authenticationwithspring.userdetails.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ArticleManagementService implements IArticleManagementService {
+    public static final Integer DEFAULT_PAGINATION_SIZE = 10;
     private final ArticleRepository articleRepository;
 
     @Autowired
@@ -85,6 +90,16 @@ public class ArticleManagementService implements IArticleManagementService {
         return articles.stream()
                 .map(article -> new ArticleDTO(article.getId(), article.getTitle(), article.getContent(), article.getCreatedAt(), article.getUpdatedAt(), new UserDTO(article.getAuthor())))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ArticleDTO> getAllArticles(Pageable pageable) {
+        Page<Article> articlesTemp = articleRepository.findAll(pageable);
+        List<ArticleDTO> articlesAsList = articlesTemp.stream()
+                .map(article -> new ArticleDTO(article.getId(), article.getTitle(), article.getContent(), article.getCreatedAt(), article.getUpdatedAt(), new UserDTO(article.getAuthor())))
+                .collect(Collectors.toList());
+        Page<ArticleDTO> articles = new PageImpl<>(articlesAsList, pageable, articlesTemp.getTotalElements());
+        return articles;
     }
 
     @Override

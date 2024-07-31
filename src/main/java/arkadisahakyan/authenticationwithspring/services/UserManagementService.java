@@ -1,6 +1,6 @@
 package arkadisahakyan.authenticationwithspring.services;
 
-import arkadisahakyan.authenticationwithspring.Utilities;
+import arkadisahakyan.authenticationwithspring.util.Utilities;
 import arkadisahakyan.authenticationwithspring.model.Role;
 import arkadisahakyan.authenticationwithspring.model.User;
 import arkadisahakyan.authenticationwithspring.repository.UserRepository;

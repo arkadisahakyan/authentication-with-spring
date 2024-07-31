@@ -16,7 +16,7 @@
         <div class="container">
             <h1 class="centered-text">All Articles</h1>
             <p sec:authorize="isAuthenticated()" class="centered-text"><a class="new-article-link" href="/article/new">new article</a></p>
-            <div th:replace="~{fragments/articles_list.html :: articles-list (articles=${articlesList})}"></div>
+            <div th:replace="~{fragments/articles_list.html :: articles-list}"></div>
             <th:block th:insert="~{fragments/pagination.html :: pagination}" />
         </div>
     </div>

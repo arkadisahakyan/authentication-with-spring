@@ -1,0 +1,19 @@
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination-item {
+    margin: 5px 0;
+    padding: 5px;
+}
+
+.pagination-item a {
+    font-family: sans-serif;
+    text-decoration: none;
+    color: mediumblue;
+}
+
+.pi-active {
+    color: tomato !important;
+}

@@ -4,16 +4,16 @@ import arkadisahakyan.authenticationwithspring.dto.ArticleCreationDTO;
 import arkadisahakyan.authenticationwithspring.dto.ArticleDTO;
 import arkadisahakyan.authenticationwithspring.dto.ArticleUpdateDTO;
 import arkadisahakyan.authenticationwithspring.exceptions.ArticleNotFoundException;
+import arkadisahakyan.authenticationwithspring.services.ArticleManagementService;
 import arkadisahakyan.authenticationwithspring.services.IArticleManagementService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -48,9 +48,13 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/articles")
-    public String articles(Model model) {
-        Collection<ArticleDTO> articles = articleManagementService.getAllArticles();
-        model.addAttribute("articlesList", articles);
+    public String articles(Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
+        Page<ArticleDTO> articles = articleManagementService.getAllArticles(PageRequest.of(page - 1, pageSize));
+        model.addAttribute("articles", articles.toList());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageCount", articles.getTotalPages());
+        model.addAttribute("paginationSize", ArticleManagementService.DEFAULT_PAGINATION_SIZE);
+        model.addAttribute("pageSize", pageSize);
         return "articles";
     }
 

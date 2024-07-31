@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:fragment="links">
+        <link rel="stylesheet" th:href="@{/css/fragments/pagination.css}">
+    </th:block>
+</head>
+<body>
+    <div th:if="${currentPage>=1 && currentPage<=pageCount}" class="pagination" th:fragment="pagination">
+        <span th:if="${currentPage>1}" class="pagination-item"><a th:href="@{?page={nPage}(nPage=${currentPage-1})}">Prev</a></span>
+        <span th:if="${currentPage<paginationSize}" th:each="page : ${#numbers.sequence(1, T(java.lang.Math).min(pageCount, paginationSize))}" class="pagination-item"><a th:classappend="${page==currentPage} ? pi-active" th:href="@{?page={nPage}(nPage=${page})}" th:text="${page}"></a></span>
+        <span th:if="${currentPage>=paginationSize && currentPage<=pageCount-paginationSize+1}" th:each="page : ${#numbers.sequence(currentPage-(paginationSize/2), currentPage-(paginationSize/2)+paginationSize-1)}" class="pagination-item"><a th:classappend="${page==currentPage} ? pi-active" th:href="@{?page={nPage}(nPage=${page})}" th:text="${page}"></a></span>
+        <span th:if="${currentPage>=paginationSize && currentPage>pageCount-paginationSize+1}" th:each="page : ${#numbers.sequence(pageCount-paginationSize+1, pageCount)}" class="pagination-item"><a th:classappend="${page==currentPage} ? pi-active" th:href="@{?page={nPage}(nPage=${page})}" th:text="${page}"></a></span>
+        <span th:if="${currentPage<pageCount}" class="pagination-item"><a th:href="@{?page={nPage}(nPage=${currentPage+1})}">Next</a></span>
+    </div>
+</body>
+</html>

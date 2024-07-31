@@ -1,4 +1,4 @@
-package arkadisahakyan.authenticationwithspring;
+package arkadisahakyan.authenticationwithspring.util;
 
 public class Utilities {
     public static String nullableString(String str) {

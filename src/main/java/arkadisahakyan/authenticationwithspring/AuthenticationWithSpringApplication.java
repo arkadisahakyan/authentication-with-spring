@@ -1,8 +1,10 @@
 package arkadisahakyan.authenticationwithspring;
 
 import arkadisahakyan.authenticationwithspring.controllers.FileUploadController;
+import arkadisahakyan.authenticationwithspring.model.Article;
 import arkadisahakyan.authenticationwithspring.model.Role;
 import arkadisahakyan.authenticationwithspring.model.User;
+import arkadisahakyan.authenticationwithspring.repository.ArticleRepository;
 import arkadisahakyan.authenticationwithspring.repository.RoleRepository;
 import arkadisahakyan.authenticationwithspring.repository.UserRepository;
 import arkadisahakyan.authenticationwithspring.services.FileUploadService;
@@ -23,6 +25,9 @@ public class AuthenticationWithSpringApplication implements ApplicationRunner {
 
 	@Autowired
 	private RoleRepository roleRepository;
+
+	@Autowired
+	private ArticleRepository articleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthenticationWithSpringApplication.class, args);
@@ -45,5 +50,10 @@ public class AuthenticationWithSpringApplication implements ApplicationRunner {
 		Path uploadDir = FileUploadService.uploadDir;
 		if (!Files.exists(uploadDir))
 			Files.createDirectories(uploadDir);
+
+		// create sample articles
+		for (int i = 1; i <= 101; i++) {
+			articleRepository.save(new Article(0L, "Sample #" + i, "Some text...", null, null, new User(2L)));
+		}
 	}
 }

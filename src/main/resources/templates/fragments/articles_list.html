@@ -7,7 +7,7 @@
     </th:block>
 </head>
 <body>
-    <div id="articles-list" th:fragment="articles-list (articles)">
+    <div id="articles-list" th:fragment="articles-list">
         <div class="article-summary" th:each="article : ${articles}">
             <div class="as-item">
                 <h3 class="as-title"><a th:href="@{/article/{id}(id=${article.id})}" th:utext="${article.title}"></a></h3>
