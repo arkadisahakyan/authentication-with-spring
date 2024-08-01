@@ -2,6 +2,7 @@ package arkadisahakyan.authenticationwithspring.controllers;
 
 import arkadisahakyan.authenticationwithspring.dto.ArticleCreationDTO;
 import arkadisahakyan.authenticationwithspring.dto.ArticleDTO;
+import arkadisahakyan.authenticationwithspring.dto.ArticleSummaryDTO;
 import arkadisahakyan.authenticationwithspring.dto.ArticleUpdateDTO;
 import arkadisahakyan.authenticationwithspring.exceptions.ArticleNotFoundException;
 import arkadisahakyan.authenticationwithspring.services.ArticleManagementService;
@@ -14,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 @Controller
 public class ArticleController {
@@ -49,9 +48,10 @@ public class ArticleController {
 
     @GetMapping(value = "/articles")
     public String articles(Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
-        Page<ArticleDTO> articles = articleManagementService.getAllArticles(PageRequest.of(page - 1, pageSize));
+        Page<ArticleSummaryDTO> articles = articleManagementService.getAllArticleSummaries(PageRequest.of(page - 1, pageSize));
         model.addAttribute("articles", articles.toList());
         model.addAttribute("currentPage", page);
+        System.out.println(articles.getTotalPages());
         model.addAttribute("pageCount", articles.getTotalPages());
         model.addAttribute("paginationSize", ArticleManagementService.DEFAULT_PAGINATION_SIZE);
         model.addAttribute("pageSize", pageSize);

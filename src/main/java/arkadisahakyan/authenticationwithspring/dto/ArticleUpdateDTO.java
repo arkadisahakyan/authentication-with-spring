@@ -1,9 +1,8 @@
 package arkadisahakyan.authenticationwithspring.dto;
 
-import arkadisahakyan.authenticationwithspring.model.Article;
 import jakarta.validation.constraints.NotBlank;
 
-public class ArticleUpdateDTO implements IArticleDTO {
+public class ArticleUpdateDTO {
 
     @NotBlank(message = "Title should not be empty.")
     private String title;
@@ -17,11 +16,6 @@ public class ArticleUpdateDTO implements IArticleDTO {
     public ArticleUpdateDTO(String title, String content) {
         this.title = title;
         this.content = content;
-    }
-
-    @Override
-    public Article toArticle() {
-        return new Article(0L, title, content, null, null, null);
     }
 
     public String getTitle() {

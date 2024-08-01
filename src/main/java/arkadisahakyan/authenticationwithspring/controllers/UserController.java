@@ -4,6 +4,7 @@ import arkadisahakyan.authenticationwithspring.services.IArticleManagementServic
 import arkadisahakyan.authenticationwithspring.services.IUserManagementService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class UserController {
 
     @GetMapping
     public String user(Model model) {
-        model.addAttribute("articlesList", articleManagementService.getAllArticlesOfCurrentUser());
+        model.addAttribute("articlesList", articleManagementService.getAllArticleSummariesOfCurrentUser(PageRequest.of(0, Integer.MAX_VALUE)));
         return "user_page";
     }
 

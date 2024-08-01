@@ -2,11 +2,10 @@ package arkadisahakyan.authenticationwithspring.services;
 
 import arkadisahakyan.authenticationwithspring.dto.ArticleCreationDTO;
 import arkadisahakyan.authenticationwithspring.dto.ArticleDTO;
+import arkadisahakyan.authenticationwithspring.dto.ArticleSummaryDTO;
 import arkadisahakyan.authenticationwithspring.dto.ArticleUpdateDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Collection;
 
 public interface IArticleManagementService {
     Long createArticle(ArticleCreationDTO articleCreationDTO);
@@ -14,7 +13,6 @@ public interface IArticleManagementService {
     void deleteArticle(Long articleId);
     ArticleDTO getArticleById(Long id);
     ArticleDTO getArticleByIdConvertedToHTML(Long id);
-    Collection<ArticleDTO> getAllArticles();
-    Page<ArticleDTO> getAllArticles(Pageable pageable);
-    Collection<ArticleDTO> getAllArticlesOfCurrentUser();
+    Page<ArticleSummaryDTO> getAllArticleSummaries(Pageable pageable);
+    Page<ArticleSummaryDTO> getAllArticleSummariesOfCurrentUser(Pageable pageable);
 }
