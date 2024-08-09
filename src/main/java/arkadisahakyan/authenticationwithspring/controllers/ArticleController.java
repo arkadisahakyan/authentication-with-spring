@@ -7,6 +7,9 @@ import arkadisahakyan.authenticationwithspring.dto.ArticleUpdateDTO;
 import arkadisahakyan.authenticationwithspring.exceptions.ArticleNotFoundException;
 import arkadisahakyan.authenticationwithspring.services.ArticleManagementService;
 import arkadisahakyan.authenticationwithspring.services.IArticleManagementService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 
 @Controller
 public class ArticleController {
@@ -47,11 +51,18 @@ public class ArticleController {
     }
 
     @GetMapping(value = "/articles")
-    public String articles(Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer pageSize) {
+    public String articles(Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(name = "pagesize", required = false) Integer pageSize, HttpServletRequest request, HttpServletResponse response) {
+        // handle the 'pageSize' parameter
+        if (pageSize != null) {
+            response.addCookie(new Cookie("pageSize", String.valueOf(pageSize)));
+        } else {
+            Cookie pageSizeCookie = WebUtils.getCookie(request, "pageSize");
+            pageSize = pageSizeCookie == null ? 10 : Integer.valueOf(pageSizeCookie.getValue());
+        }
+        // show the article list
         Page<ArticleSummaryDTO> articles = articleManagementService.getAllArticleSummaries(PageRequest.of(page - 1, pageSize));
         model.addAttribute("articles", articles.toList());
         model.addAttribute("currentPage", page);
-        System.out.println(articles.getTotalPages());
         model.addAttribute("pageCount", articles.getTotalPages());
         model.addAttribute("paginationSize", ArticleManagementService.DEFAULT_PAGINATION_SIZE);
         model.addAttribute("pageSize", pageSize);

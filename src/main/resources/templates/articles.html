@@ -17,7 +17,15 @@
             <h1 class="centered-text">All Articles</h1>
             <p sec:authorize="isAuthenticated()" class="centered-text"><a class="new-article-link" href="/article/new">new article</a></p>
             <div th:replace="~{fragments/articles_list.html :: articles-list}"></div>
-            <th:block th:insert="~{fragments/pagination.html :: pagination}" />
+            <div class="page-navigation">
+                <div class="page-navigation--item p-items-per-page">
+                    <a th:href="@{?pagesize=5}">5</a>
+                    <a th:href="@{?pagesize=10}">10</a>
+                    <a th:href="@{?pagesize=25}">25</a>
+                    <span>per page</span>
+                </div>
+                <th:block th:insert="~{fragments/pagination.html :: pagination}" />
+            </div>
         </div>
     </div>
 </body>

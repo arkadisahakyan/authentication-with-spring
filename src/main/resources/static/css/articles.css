@@ -1,0 +1,22 @@
+.page-navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.page-navigation--item {
+    display: flex;
+    padding: 10px 0;
+    font-family: sans-serif;
+}
+
+.page-navigation--item a {
+    color: mediumblue !important;
+    text-decoration: none;
+}
+
+.p-items-per-page {
+    gap: 10px;
+}
