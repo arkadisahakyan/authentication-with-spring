@@ -1,19 +1,20 @@
 package arkadisahakyan.authenticationwithspring.controllers;
 
+import arkadisahakyan.authenticationwithspring.dto.ArticleSummaryDTO;
+import arkadisahakyan.authenticationwithspring.dto.PaginationDTO;
+import arkadisahakyan.authenticationwithspring.services.ArticleManagementService;
 import arkadisahakyan.authenticationwithspring.services.IArticleManagementService;
 import arkadisahakyan.authenticationwithspring.services.IUserManagementService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -32,8 +33,10 @@ public class UserController {
     }
 
     @GetMapping
-    public String user(Model model) {
-        model.addAttribute("articlesList", articleManagementService.getAllArticleSummariesOfCurrentUser(PageRequest.of(0, Integer.MAX_VALUE)));
+    public String user(Model model, @RequestParam(defaultValue = "1") Integer page) {
+        Page<ArticleSummaryDTO> articles = articleManagementService.getAllArticleSummaries(PageRequest.of( page - 1, 10));
+        model.addAttribute("articles", articles.toList());
+        model.addAttribute("pagination", new PaginationDTO(page, articles.getTotalPages(), ArticleManagementService.DEFAULT_PAGINATION_SIZE, 10));
         return "user_page";
     }
 

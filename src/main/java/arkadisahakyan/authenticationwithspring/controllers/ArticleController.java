@@ -1,9 +1,6 @@
 package arkadisahakyan.authenticationwithspring.controllers;
 
-import arkadisahakyan.authenticationwithspring.dto.ArticleCreationDTO;
-import arkadisahakyan.authenticationwithspring.dto.ArticleDTO;
-import arkadisahakyan.authenticationwithspring.dto.ArticleSummaryDTO;
-import arkadisahakyan.authenticationwithspring.dto.ArticleUpdateDTO;
+import arkadisahakyan.authenticationwithspring.dto.*;
 import arkadisahakyan.authenticationwithspring.exceptions.ArticleNotFoundException;
 import arkadisahakyan.authenticationwithspring.services.ArticleManagementService;
 import arkadisahakyan.authenticationwithspring.services.IArticleManagementService;
@@ -62,10 +59,7 @@ public class ArticleController {
         // show the article list
         Page<ArticleSummaryDTO> articles = articleManagementService.getAllArticleSummaries(PageRequest.of(page - 1, pageSize));
         model.addAttribute("articles", articles.toList());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("pageCount", articles.getTotalPages());
-        model.addAttribute("paginationSize", ArticleManagementService.DEFAULT_PAGINATION_SIZE);
-        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("pagination", new PaginationDTO(page, articles.getTotalPages(), ArticleManagementService.DEFAULT_PAGINATION_SIZE, pageSize));
         return "articles";
     }
 

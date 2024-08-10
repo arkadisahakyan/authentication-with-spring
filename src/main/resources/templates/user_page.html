@@ -5,8 +5,10 @@
     <title>User Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/user_page.css}">
     <th:block th:replace="~{fragments/header.html :: links}" />
     <th:block th:replace="~{fragments/articles_list.html :: links}" />
+    <th:block th:replace="~{fragments/pagination.html :: links}" />
 </head>
 <body>
     <header th:replace="~{fragments/header.html :: header}"></header>
@@ -14,7 +16,10 @@
         <div class="container">
             <h1 class="centered-text">My Articles</h1>
             <p sec:authorize="isAuthenticated()" class="centered-text"><a class="new-article-link" href="/article/new">new article</a></p>
-            <div th:replace="~{fragments/articles_list.html :: articles-list (articles=${articlesList})}"></div>
+            <div th:replace="~{fragments/articles_list.html :: articles-list}"></div>
+            <div class="page-navigation">
+                <th:block th:insert="~{fragments/pagination.html :: pagination}" />
+            </div>
         </div>
     </div>
 </body>

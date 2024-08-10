@@ -11,12 +11,3 @@
     padding: 10px 0;
     font-family: sans-serif;
 }
-
-.page-navigation--item a {
-    color: mediumblue;
-    text-decoration: none;
-}
-
-.p-items-per-page {
-    gap: 10px;
-}
