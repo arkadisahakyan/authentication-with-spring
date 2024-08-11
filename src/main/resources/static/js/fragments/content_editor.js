@@ -12,8 +12,9 @@ $(document).ready(function() {
             type: 'POST',
             url: 'http://localhost:8080/upload',
             data: formData,
-            success: function(data) {
-                $('#ce-textarea').val(textBefore + `\n\t${data}\n` + textAfter);
+            success: function(data, textStatus, xhr) {
+                console.log(xhr.status);
+                $('#ce-textarea').val(textBefore + `\n\t${xhr.getResponseHeader('location')}\n` + textAfter);
             },
             contentType: false,
             processData: false

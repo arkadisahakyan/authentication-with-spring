@@ -3,12 +3,14 @@ package arkadisahakyan.authenticationwithspring.services;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,13 +26,13 @@ public class FileUploadService implements IFileUploadService {
             String filename = file.getOriginalFilename();
             String fileSuffix = filename.substring(filename.lastIndexOf('.'));
             Path fileDest = Files.createTempFile(uploadDir, null, fileSuffix);
-            System.out.println(fileDest.toString());
             Files.copy(file.getInputStream(), fileDest, StandardCopyOption.REPLACE_EXISTING);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.TEXT_PLAIN)
-                    .body("/files/" + fileDest.subpath(1, fileDest.getNameCount()).toString().replace('\\', '/'));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create("/files/" + fileDest.subpath(1, fileDest.getNameCount()).toString().replace('\\', '/')));
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
         } catch (IOException e) {
-            return ResponseEntity.internalServerError().body(null);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
