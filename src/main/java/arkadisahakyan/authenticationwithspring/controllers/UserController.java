@@ -20,9 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
-    private final static String ACTION_SAVE = "saveButton";
-    private final static String ACTION_DELETE = "deleteButton";
-
     private final IUserManagementService userManagementService;
     private final IArticleManagementService articleManagementService;
 

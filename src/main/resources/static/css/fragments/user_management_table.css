@@ -37,6 +37,6 @@
 }
 
 .error-message-block {
-    height: 35px;
+    min-height: 35px;
     line-height: 35px;
 }

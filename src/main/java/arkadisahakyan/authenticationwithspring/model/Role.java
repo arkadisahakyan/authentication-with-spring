@@ -2,6 +2,8 @@ package arkadisahakyan.authenticationwithspring.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -10,18 +12,16 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private User userId;
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
 
     @Column(name = "role_name", nullable = false)
     private String roleName;
 
     public Role() {}
 
-    public Role(Long id, User userId, String roleName) {
+    public Role(Long id, String roleName) {
         this.id = id;
-        this.userId = userId;
         this.roleName = roleName;
     }
 
@@ -33,12 +33,12 @@ public class Role {
         this.id = id;
     }
 
-    public User getUserId() {
-        return userId;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public String getRoleName() {

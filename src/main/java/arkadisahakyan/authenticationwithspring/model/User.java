@@ -3,6 +3,7 @@ package arkadisahakyan.authenticationwithspring.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -19,8 +20,13 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") }
+    )
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     private List<Article> articles;
@@ -31,7 +37,7 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, String username, String password, List<Role> roles) {
+    public User(Long id, String username, String password, Set<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -44,11 +50,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

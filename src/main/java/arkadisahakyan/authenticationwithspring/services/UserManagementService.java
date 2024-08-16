@@ -1,5 +1,7 @@
 package arkadisahakyan.authenticationwithspring.services;
 
+import arkadisahakyan.authenticationwithspring.repository.RoleRepository;
+import arkadisahakyan.authenticationwithspring.security.AuthorityConstant;
 import arkadisahakyan.authenticationwithspring.util.Utilities;
 import arkadisahakyan.authenticationwithspring.model.Role;
 import arkadisahakyan.authenticationwithspring.model.User;
@@ -11,7 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,21 +22,26 @@ public class UserManagementService implements IUserManagementService {
     private final static String ACTION_DELETE = "deleteButton";
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserManagementService(UserRepository userRepository) {
+    public UserManagementService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
-    protected static User retrieveUserFromMultiValueMap(MultiValueMap<String, String> map) {
+    private User retrieveUserFromMultiValueMap(MultiValueMap<String, String> map) {
         Long id = Utilities.parseLong(map.getFirst("id"));
         String username = Utilities.nullableString(map.getFirst("username"));
         String password = Utilities.nullableString(map.getFirst("password"));
         User user = new User(id, username, password);
-        List<Role> roles = map.getFirst("roles") == null ? null : Arrays.stream(map.getFirst("roles")
+        Set<Role> roles = map.getFirst("roles") == null ? null : Arrays.stream(map.getFirst("roles")
                         .split(","))
-                .map(roleName -> new Role(0L, user, roleName))
-                .collect(Collectors.toList());
+                .map(roleName -> roleRepository.findByRoleNameIgnoreCase(roleName))
+                .collect(Collectors.toSet());
+        // add default role USER
+        if (!roles.contains(AuthorityConstant.USER))
+            roles.add(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name()));
         user.setRoles(roles);
         return user;
     }
@@ -45,12 +52,13 @@ public class UserManagementService implements IUserManagementService {
         String actionName = formData.getFirst(ACTION_SAVE) != null ? ACTION_SAVE : ACTION_DELETE;
         if (changedUserData.getId() != null) {
             try {
-                if (ACTION_SAVE.equals(actionName))
+                if (ACTION_SAVE.equals(actionName)) {
                     userRepository.save(changedUserData);
+                }
                 else if (ACTION_DELETE.equals(actionName))
                     userRepository.deleteById(changedUserData.getId());
             } catch (RuntimeException exception) {
-                redirectAttributes.addFlashAttribute("userSaveFailed", true);
+                redirectAttributes.addFlashAttribute("userSaveFailed", "true");
             }
         }
         return "redirect:" + request.getHeader("referer");

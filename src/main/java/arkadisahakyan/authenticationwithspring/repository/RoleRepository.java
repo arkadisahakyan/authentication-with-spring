@@ -9,5 +9,5 @@ import java.util.Collection;
 
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Long> {
-    Collection<Role> findByUserId(User userId);
+    Role findByRoleNameIgnoreCase(String roleName);
 }

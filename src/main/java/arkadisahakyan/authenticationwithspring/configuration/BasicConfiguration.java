@@ -6,6 +6,7 @@ import arkadisahakyan.authenticationwithspring.model.User;
 import arkadisahakyan.authenticationwithspring.repository.ArticleRepository;
 import arkadisahakyan.authenticationwithspring.repository.RoleRepository;
 import arkadisahakyan.authenticationwithspring.repository.UserRepository;
+import arkadisahakyan.authenticationwithspring.security.AuthorityConstant;
 import arkadisahakyan.authenticationwithspring.services.FileUploadService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Set;
 
 @Configuration
 public class BasicConfiguration implements ApplicationRunner {
@@ -36,15 +38,22 @@ public class BasicConfiguration implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        // create default roles
+        for (AuthorityConstant c : AuthorityConstant.values())
+            if (roleRepository.findByRoleNameIgnoreCase(c.name()) == null)
+                roleRepository.save(new Role(0L, c.name()));
+
+        // create default users
         if (userRepository.findByUsername("user") == null) {
             User user = new User(1L, "user", "user");
+            user.setRoles(Set.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name())));
             userRepository.save(user);
-            roleRepository.save(new Role(1L, user, "USER"));
         }
         if (userRepository.findByUsername("admin") == null) {
             User admin = new User(2L, "admin", "admin");
+            admin.setRoles(Set.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name()),
+                    roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.ADMIN.name())));
             userRepository.save(admin);
-            roleRepository.save(new Role(2L, admin, "ADMIN"));
         }
 
         // create upload directory if not exists

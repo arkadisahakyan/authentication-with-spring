@@ -4,6 +4,7 @@ import arkadisahakyan.authenticationwithspring.model.Role;
 import arkadisahakyan.authenticationwithspring.model.User;
 import arkadisahakyan.authenticationwithspring.repository.RoleRepository;
 import arkadisahakyan.authenticationwithspring.repository.UserRepository;
+import arkadisahakyan.authenticationwithspring.security.AuthorityConstant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +26,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Arrays;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/register")
@@ -86,8 +90,8 @@ public class RegisterController {
         request.getSession().invalidate();
         // save user to database
         User newUser = new User(0L, username, password);
+        newUser.setRoles(Set.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name())));
         userRepository.save(newUser);
-        roleRepository.save(new Role(0L, newUser, "USER"));
         // remember user - create remember-me token
         Authentication formAuth = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(formAuth);

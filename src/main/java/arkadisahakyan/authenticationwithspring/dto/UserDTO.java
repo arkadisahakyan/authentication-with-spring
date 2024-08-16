@@ -4,11 +4,12 @@ import arkadisahakyan.authenticationwithspring.model.Role;
 import arkadisahakyan.authenticationwithspring.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 public class UserDTO {
     private Long id;
     private String username;
-    private List<Role> roles;
+    private Set<Role> roles;
 
     public UserDTO() {
     }
@@ -18,7 +19,7 @@ public class UserDTO {
         this.username = username;
     }
 
-    public UserDTO(Long id, String username, List<Role> roles) {
+    public UserDTO(Long id, String username, Set<Role> roles) {
         this.id = id;
         this.username = username;
         this.roles = roles;
@@ -46,11 +47,11 @@ public class UserDTO {
         this.username = username;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }
