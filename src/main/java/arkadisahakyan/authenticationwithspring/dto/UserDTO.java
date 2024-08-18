@@ -9,7 +9,7 @@ import java.util.Set;
 public class UserDTO {
     private Long id;
     private String username;
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public UserDTO() {
     }
@@ -19,7 +19,7 @@ public class UserDTO {
         this.username = username;
     }
 
-    public UserDTO(Long id, String username, Set<Role> roles) {
+    public UserDTO(Long id, String username, List<Role> roles) {
         this.id = id;
         this.username = username;
         this.roles = roles;
@@ -47,11 +47,11 @@ public class UserDTO {
         this.username = username;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 }

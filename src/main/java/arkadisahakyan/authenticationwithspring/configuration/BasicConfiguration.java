@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -46,12 +47,12 @@ public class BasicConfiguration implements ApplicationRunner {
         // create default users
         if (userRepository.findByUsername("user") == null) {
             User user = new User(1L, "user", "user");
-            user.setRoles(Set.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name())));
+            user.setRoles(List.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name())));
             userRepository.save(user);
         }
         if (userRepository.findByUsername("admin") == null) {
             User admin = new User(2L, "admin", "admin");
-            admin.setRoles(Set.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name()),
+            admin.setRoles(List.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name()),
                     roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.ADMIN.name())));
             userRepository.save(admin);
         }

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -90,7 +91,7 @@ public class RegisterController {
         request.getSession().invalidate();
         // save user to database
         User newUser = new User(0L, username, password);
-        newUser.setRoles(Set.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name())));
+        newUser.setRoles(List.of(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name())));
         userRepository.save(newUser);
         // remember user - create remember-me token
         Authentication formAuth = new UsernamePasswordAuthenticationToken(username, password);

@@ -26,7 +26,7 @@ public class User {
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") }
     )
-    private Set<Role> roles;
+    private List<Role> roles;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE)
     private List<Article> articles;
@@ -37,7 +37,7 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, String username, String password, Set<Role> roles) {
+    public User(Long id, String username, String password, List<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -50,11 +50,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

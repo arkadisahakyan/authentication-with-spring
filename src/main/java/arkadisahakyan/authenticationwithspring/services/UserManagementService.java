@@ -13,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,10 +36,10 @@ public class UserManagementService implements IUserManagementService {
         String username = Utilities.nullableString(map.getFirst("username"));
         String password = Utilities.nullableString(map.getFirst("password"));
         User user = new User(id, username, password);
-        Set<Role> roles = map.getFirst("roles") == null ? null : Arrays.stream(map.getFirst("roles")
+        List<Role> roles = map.getFirst("roles") == null ? null : Arrays.stream(map.getFirst("roles")
                         .split(","))
                 .map(roleName -> roleRepository.findByRoleNameIgnoreCase(roleName))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
         // add default role USER
         if (!roles.contains(AuthorityConstant.USER))
             roles.add(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name()));
