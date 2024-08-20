@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserManagementService implements IUserManagementService {
-    private final static String ACTION_SAVE = "saveButton";
-    private final static String ACTION_DELETE = "deleteButton";
+    protected final static String ACTION_SAVE = "saveButton";
+    protected final static String ACTION_DELETE = "deleteButton";
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -37,11 +37,14 @@ public class UserManagementService implements IUserManagementService {
         String password = Utilities.nullableString(map.getFirst("password"));
         User user = new User(id, username, password);
         List<Role> roles = map.getFirst("roles") == null ? null : Arrays.stream(map.getFirst("roles")
+                        .replaceAll("\\s", "")
+                        .toLowerCase()
                         .split(","))
+                .distinct()
                 .map(roleName -> roleRepository.findByRoleNameIgnoreCase(roleName))
                 .collect(Collectors.toList());
         // add default role USER
-        if (!roles.contains(AuthorityConstant.USER))
+        if (!roles.contains(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name())))
             roles.add(roleRepository.findByRoleNameIgnoreCase(AuthorityConstant.USER.name()));
         user.setRoles(roles);
         return user;
@@ -50,7 +53,7 @@ public class UserManagementService implements IUserManagementService {
     @Override
     public String manageUser(MultiValueMap<String, String> formData, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         User changedUserData = retrieveUserFromMultiValueMap(formData);
-        String actionName = formData.getFirst(ACTION_SAVE) != null ? ACTION_SAVE : ACTION_DELETE;
+        String actionName = formData.containsKey(ACTION_SAVE) ? ACTION_SAVE : formData.containsKey(ACTION_DELETE) ? ACTION_DELETE : null;
         if (changedUserData.getId() != null) {
             try {
                 if (ACTION_SAVE.equals(actionName)) {
@@ -59,7 +62,7 @@ public class UserManagementService implements IUserManagementService {
                 else if (ACTION_DELETE.equals(actionName))
                     userRepository.deleteById(changedUserData.getId());
             } catch (RuntimeException exception) {
-                redirectAttributes.addFlashAttribute("userSaveFailed", "true");
+                redirectAttributes.addFlashAttribute("userSaveFailed", "Failed to save the user");
             }
         }
         return "redirect:" + request.getHeader("referer");
