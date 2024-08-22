@@ -18,10 +18,19 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class FileUploadService implements IFileUploadService {
-    public static final Path uploadDir = Paths.get("upload-dir");
+    private final Path uploadDir;
+
+    public FileUploadService() {
+        this.uploadDir = Paths.get("upload-dir");
+    }
+
+    public FileUploadService(Path uploadDir) {
+        this.uploadDir = uploadDir;
+    }
 
     @Override
     public ResponseEntity<String> uploadFile(MultipartFile file) {
+        createUploadDirectoryIfNotExists();
         try {
             String filename = file.getOriginalFilename();
             String fileSuffix = filename.substring(filename.lastIndexOf('.'));
@@ -36,6 +45,17 @@ public class FileUploadService implements IFileUploadService {
         }
     }
 
+    private void createUploadDirectoryIfNotExists() {
+        if (!Files.exists(uploadDir)) {
+            try {
+                System.out.println("CREATED");
+                Files.createDirectories(uploadDir);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     @Override
     public ResponseEntity<Resource> serveFile(String filename) {
         Path fileDest = uploadDir.resolve(filename);
@@ -43,7 +63,7 @@ public class FileUploadService implements IFileUploadService {
         try {
             fileAsResource = new UrlResource(fileDest.toUri());
             if (!fileAsResource.exists())
-                throw new Exception("File doesn't exists.");
+                throw new Exception("File doesn't exist.");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(null);
         }
@@ -57,5 +77,9 @@ public class FileUploadService implements IFileUploadService {
                 .contentType(contentType)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileDest.getFileName() + "\"")
                 .body(fileAsResource);
+    }
+
+    public Path getUploadDir() {
+        return uploadDir;
     }
 }
