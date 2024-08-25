@@ -1,8 +1,12 @@
 package arkadisahakyan.authenticationwithspring.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
+@Data
 public class ArticleUpdateDTO {
+
+    private Long id;
 
     @NotBlank(message = "Title should not be empty.")
     private String title;
@@ -18,19 +22,9 @@ public class ArticleUpdateDTO {
         this.content = content;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
+    public ArticleUpdateDTO(Long id, String title, String content) {
+        this.id = id;
         this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
         this.content = content;
     }
 }

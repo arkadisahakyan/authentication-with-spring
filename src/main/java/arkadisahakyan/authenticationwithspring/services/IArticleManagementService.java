@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IArticleManagementService {
     Long createArticle(ArticleCreationDTO articleCreationDTO);
-    Long updateArticle(ArticleUpdateDTO articleUpdateDTO, Long articleId);
+    Long updateArticle(ArticleUpdateDTO articleUpdateDTO);
     void deleteArticle(Long articleId);
     ArticleDTO getArticleById(Long id);
     ArticleDTO getArticleByIdConvertedToHTML(Long id);

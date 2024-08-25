@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping
     public String user(Model model, @RequestParam(defaultValue = "1") Integer page) {
-        Page<ArticleSummaryDTO> articles = articleManagementService.getAllArticleSummaries(PageRequest.of( page - 1, 10));
+        Page<ArticleSummaryDTO> articles = articleManagementService.getAllArticleSummariesOfCurrentUser(PageRequest.of( page - 1, 10));
         model.addAttribute("articles", articles.toList());
         model.addAttribute("pagination", new PaginationDTO(page, articles.getTotalPages(), ArticleManagementService.DEFAULT_PAGINATION_SIZE, 10));
         return "user_page";

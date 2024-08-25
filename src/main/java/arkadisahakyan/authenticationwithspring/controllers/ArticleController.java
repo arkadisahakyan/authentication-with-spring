@@ -69,8 +69,9 @@ public class ArticleController {
     }
 
     @PostMapping(value = "/article/{articleId:.+}/edit", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String updateArticle(@Valid ArticleUpdateDTO articleUpdateDTO, @PathVariable String articleId) {
-        return "redirect:/article/" + articleManagementService.updateArticle(articleUpdateDTO, Long.valueOf(articleId));
+    public String updateArticle(@Valid ArticleUpdateDTO articleUpdateDTO, @PathVariable Long articleId) {
+        articleUpdateDTO.setId(articleId);
+        return "redirect:/article/" + articleManagementService.updateArticle(articleUpdateDTO);
     }
 
     @PostMapping(value = "/article/{articleId:.+}/delete", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
