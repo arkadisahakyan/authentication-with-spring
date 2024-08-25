@@ -9,6 +9,7 @@ import arkadisahakyan.authenticationwithspring.model.User;
 import arkadisahakyan.authenticationwithspring.repository.ArticleRepository;
 import arkadisahakyan.authenticationwithspring.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -139,6 +140,11 @@ class ArticleManagementServiceIT {
         for (ArticleSummaryDTO articleSummary : articleSummaries.getContent()) {
             assertEquals("user", articleSummary.getAuthor().getUsername());
         }
+    }
+
+    @AfterAll
+    void tearDown() {
+        userRepository.deleteAll();
     }
 
     @TestConfiguration
