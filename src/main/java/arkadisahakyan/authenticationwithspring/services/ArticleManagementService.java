@@ -3,10 +3,8 @@ package arkadisahakyan.authenticationwithspring.services;
 import arkadisahakyan.authenticationwithspring.dto.*;
 import arkadisahakyan.authenticationwithspring.exceptions.ArticleNotFoundException;
 import arkadisahakyan.authenticationwithspring.model.Article;
-import arkadisahakyan.authenticationwithspring.model.User;
 import arkadisahakyan.authenticationwithspring.repository.ArticleRepository;
 import arkadisahakyan.authenticationwithspring.repository.UserRepository;
-import arkadisahakyan.authenticationwithspring.userdetails.CustomUserDetails;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -93,7 +91,7 @@ public class ArticleManagementService implements IArticleManagementService {
     @Override
     public Page<ArticleSummaryDTO> getAllArticleSummariesOfCurrentUser(Pageable pageable) {
         Authentication author = SecurityContextHolder.getContext().getAuthentication();
-        Page<ArticleSummaryDTO> articles = articleRepository.getAllArticleSummariesById(pageable, userRepository.findByUsername(author.getName()).getId());
+        Page<ArticleSummaryDTO> articles = articleRepository.getAllArticleSummariesByUserId(pageable, userRepository.findByUsername(author.getName()).getId());
         return articles;
     }
     private ArticleDTO convertToHTML(ArticleDTO articleDTO) {

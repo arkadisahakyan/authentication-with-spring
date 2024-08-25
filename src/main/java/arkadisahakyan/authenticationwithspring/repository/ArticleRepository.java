@@ -18,7 +18,7 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
     Page<ArticleSummaryDTO> getAllArticleSummaries(Pageable pageable);
 
     @Query(value = "SELECT new arkadisahakyan.authenticationwithspring.dto.ArticleSummaryDTO(a.id, a.title, a.createdAt, a.updatedAt, new arkadisahakyan.authenticationwithspring.dto.UserDTO(u.id, u.username)) FROM Article a LEFT JOIN User u ON a.author.id=u.id WHERE u.id=:id")
-    Page<ArticleSummaryDTO> getAllArticleSummariesById(Pageable pageable, Long id);
+    Page<ArticleSummaryDTO> getAllArticleSummariesByUserId(Pageable pageable, Long id);
 
     Collection<Article> findByAuthor_Username(String username);
 }
