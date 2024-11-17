@@ -1,0 +1,9 @@
+# Indellij IDEA
+.idea
+
+# Maven
+.mvn
+target
+
+# Other
+upload-dir
