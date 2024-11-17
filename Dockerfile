@@ -20,6 +20,6 @@ FROM openjdk:17-alpine
 
 WORKDIR /app
 
-COPY --from=build /build .
+COPY --from=build /build/target/blog-0.0.1-SNAPSHOT.jar .
 
-CMD ["java", "-jar", "./target/authentication-with-spring-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "blog-0.0.1-SNAPSHOT.jar"]

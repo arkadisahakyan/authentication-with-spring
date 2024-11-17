@@ -1,6 +1,6 @@
 services:
-  auth:
-    image: auth
+  blog:
+    image: blog
     build: .
     ports:
       - "8080:8080"

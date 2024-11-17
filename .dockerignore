@@ -1,5 +1,6 @@
 # Indellij IDEA
 .idea
+*.iml
 
 # Maven
 .mvn

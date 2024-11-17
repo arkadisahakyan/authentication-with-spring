@@ -9,13 +9,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>arkadisahakyan</groupId>
-	<artifactId>authentication-with-spring</artifactId>
+	<artifactId>blog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>authentication-with-spring</name>
-	<description>Demo project</description>
+	<name>blog</name>
+	<description>Simple blogging application on Spring Boot.</description>
 	<properties>
 		<java.version>17</java.version>
-		<start-class>arkadisahakyan.authenticationwithspring.AuthenticationWithSpringApplication</start-class>
+		<start-class>arkadisahakyan.blog.BlogApplication</start-class>
 	</properties>
 	<dependencies>
 		<dependency>
